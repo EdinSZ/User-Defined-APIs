@@ -17,7 +17,7 @@ namespace MaintenanceAPI_1
 
                 return new ApiTriggerOutput
                 {
-                    ResponseBody = "Maintenance started. Switched to satellite.",
+                    ResponseBody = "Maintenance started. Masking the device.",
                     ResponseCode = (int)StatusCode.Ok,
                 };
             }
@@ -28,7 +28,7 @@ namespace MaintenanceAPI_1
 
                 return new ApiTriggerOutput
                 {
-                    ResponseBody = "Maintenance stopped. Switched to main connection.",
+                    ResponseBody = "Maintenance stopped. Unmasking the device.",
                     ResponseCode = (int)StatusCode.Ok,
                 };
             }
@@ -42,12 +42,14 @@ namespace MaintenanceAPI_1
 
         public void Start(IEngine engine)
         {
-
+            var encoderDecoder = engine.FindElement("EncoderDecoder");
+            encoderDecoder.Mask("Under maintenance.");
         }
 
         public void Stop(IEngine engine)
         {
-
+            var encoderDecoder = engine.FindElement("EncoderDecoder");
+            encoderDecoder.Unmask();
         }
     }
 }
